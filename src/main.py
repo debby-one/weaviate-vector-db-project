@@ -34,3 +34,13 @@ data_object = {
 
 # データをExampleClassに追加
 client.data_object.create(data_object, "ExampleClass")
+
+
+# データを検索
+result = client.query.get(
+    "ExampleClass",  # クラス名
+    ["name", "description"]  # 取得したいフィールド
+).do()
+
+# 結果を表示
+print("検索結果:", result)
