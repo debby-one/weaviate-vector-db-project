@@ -1,0 +1,6 @@
+weaviate-client
+numpy
+scikit-learn
+requests
+pydantic
+weaviate-client-python
