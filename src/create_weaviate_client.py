@@ -1,10 +1,12 @@
 import weaviate
+import os
 
 def create_weaviate_client():
     """
     Create a Weaviate client instance.
     """
     try:
+        api_key = os.getenv("WEAVIATE_APIKEY")
         weaviate_client = weaviate.connect_to_custom(
             http_host="192.168.1.8",    # URL only, no http prefix
             http_port=8080,             # Default is 8080
@@ -13,6 +15,10 @@ def create_weaviate_client():
             grpc_port=30021,            # Default is 50051, WCD uses 443
             grpc_secure=False,          # Edit as needed
             skip_init_checks=True,      # Set to True if you want to skip init checks
+            auth_credentials=None,
+            headers={
+                "Bearer": f"{api_key}"
+            }
         )
         assert weaviate_client.is_live()
 
@@ -21,7 +27,7 @@ def create_weaviate_client():
 
         # TestReport(親オブジェクト)作成
         parentUUID = TestReport.data.insert({
-            'title':"TestDocument",
+            'title':"TestDocument1",
             'summary':"この文章はテストドキュメントです。"
         })
         print("parent object insert success:uuid=",parentUUID)
